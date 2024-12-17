@@ -183,7 +183,7 @@ func BenchmarkSpanWithAttributes_8(b *testing.B) {
 	})
 }
 
-func BenchmarkSpanWithAttributes_all(b *testing.B) {
+func BenchmarkSpan_5_Attributes_all_Attributes_Types(b *testing.B) {
 	traceBenchmark(b, "Benchmark Start With all Attribute types", func(b *testing.B, t trace.Tracer) {
 		ctx := context.Background()
 		b.ResetTimer()
@@ -202,7 +202,7 @@ func BenchmarkSpanWithAttributes_all(b *testing.B) {
 	})
 }
 
-func BenchmarkSpanWithAttributes_all_2x(b *testing.B) {
+func Benchmark_50_Attributes_all_Attributes_Types_Span(b *testing.B) {
 	traceBenchmark(b, "Benchmark Start With all Attributes types twice", func(b *testing.B, t trace.Tracer) {
 		ctx := context.Background()
 		b.ResetTimer()
@@ -220,7 +220,113 @@ func BenchmarkSpanWithAttributes_all_2x(b *testing.B) {
 				attribute.Int64("key23", 123),
 				attribute.Float64("key27", 123.456),
 				attribute.Int("key210", 123),
+				attribute.Bool("key31", false),
+				attribute.String("key32", "hello"),
+				attribute.Int64("key33", 123),
+				attribute.Float64("key37", 123.456),
+				attribute.Int("key310", 123),
+				attribute.Bool("key321", false),
+				attribute.String("key322", "hello"),
+				attribute.Int64("key323", 123),
+				attribute.Float64("key327", 123.456),
+				attribute.Int("key3210", 123),
+				attribute.Bool("key41", false),
+				attribute.String("key42", "hello"),
+				attribute.Int64("key43", 123),
+				attribute.Float64("key47", 123.456),
+				attribute.Int("key410", 123),
+				attribute.Bool("key421", false),
+				attribute.String("key422", "hello"),
+				attribute.Int64("key423", 123),
+				attribute.Float64("key427", 123.456),
+				attribute.Int("key4210", 123),
+				attribute.Bool("key1", false),
+				attribute.String("key2", "hello"),
+				attribute.Int64("key3", 123),
+				attribute.Float64("key7", 123.456),
+				attribute.Int("key510", 123),
+				attribute.Bool("key521", false),
+				attribute.String("key522", "hello"),
+				attribute.Int64("key523", 123),
+				attribute.Float64("key527", 123.456),
+				attribute.Int("key5210", 123),
+				attribute.Bool("key61", false),
+				attribute.String("key62", "hello"),
+				attribute.Int64("key63", 123),
+				attribute.Float64("key67", 123.456),
+				attribute.Int("key610", 123),
+				attribute.Bool("key621", false),
+				attribute.String("key622", "hello"),
+				attribute.Int64("key623", 123),
+				attribute.Float64("key627", 123.456),
+				attribute.Int("key6210", 123),
 			)
+			span.End()
+		}
+	})
+}
+
+func Benchmark_50_Attributes_all_Attributes_Types_Event(b *testing.B) {
+	traceBenchmark(b, "Benchmark Start With 4 Events", func(b *testing.B, t trace.Tracer) {
+		ctx := context.Background()
+		b.ResetTimer()
+
+		for i := 0; i < b.N; i++ {
+			_, span := t.Start(ctx, "/foo")
+			attrs := make([]attribute.KeyValue, 0, 50)
+			attrs = []attribute.KeyValue{
+				attribute.Bool("key1", false),
+				attribute.String("key2", "hello"),
+				attribute.Int64("key3", 123),
+				attribute.Float64("key7", 123.456),
+				attribute.Int("key10", 123),
+				attribute.Bool("key21", false),
+				attribute.String("key22", "hello"),
+				attribute.Int64("key23", 123),
+				attribute.Float64("key27", 123.456),
+				attribute.Int("key210", 123),
+				attribute.Bool("key31", false),
+				attribute.String("key32", "hello"),
+				attribute.Int64("key33", 123),
+				attribute.Float64("key37", 123.456),
+				attribute.Int("key310", 123),
+				attribute.Bool("key321", false),
+				attribute.String("key322", "hello"),
+				attribute.Int64("key323", 123),
+				attribute.Float64("key327", 123.456),
+				attribute.Int("key3210", 123),
+				attribute.Bool("key41", false),
+				attribute.String("key42", "hello"),
+				attribute.Int64("key43", 123),
+				attribute.Float64("key47", 123.456),
+				attribute.Int("key410", 123),
+				attribute.Bool("key421", false),
+				attribute.String("key422", "hello"),
+				attribute.Int64("key423", 123),
+				attribute.Float64("key427", 123.456),
+				attribute.Int("key4210", 123),
+				attribute.Bool("key1", false),
+				attribute.String("key2", "hello"),
+				attribute.Int64("key3", 123),
+				attribute.Float64("key7", 123.456),
+				attribute.Int("key510", 123),
+				attribute.Bool("key521", false),
+				attribute.String("key522", "hello"),
+				attribute.Int64("key523", 123),
+				attribute.Float64("key527", 123.456),
+				attribute.Int("key5210", 123),
+				attribute.Bool("key61", false),
+				attribute.String("key62", "hello"),
+				attribute.Int64("key63", 123),
+				attribute.Float64("key67", 123.456),
+				attribute.Int("key610", 123),
+				attribute.Bool("key621", false),
+				attribute.String("key622", "hello"),
+				attribute.Int64("key623", 123),
+				attribute.Float64("key627", 123.456),
+				attribute.Int("key6210", 123),
+			}
+			span.AddEvent("event1", trace.WithAttributes(attrs...))
 			span.End()
 		}
 	})

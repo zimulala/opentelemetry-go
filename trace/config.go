@@ -166,6 +166,9 @@ func (cfg *EventConfig) StackTrace() bool {
 func NewEventConfig(options ...EventOption) EventConfig {
 	var c EventConfig
 	for _, option := range options {
+		// if i != 0 {
+		// 	fmt.Println("event, no.", i)
+		// }
 		c = option.applyEvent(c)
 	}
 	if c.timestamp.IsZero() {
@@ -205,6 +208,10 @@ func (o attributeOption) applySpan(c SpanConfig) SpanConfig {
 }
 func (o attributeOption) applySpanStart(c SpanConfig) SpanConfig { return o.applySpan(c) }
 func (o attributeOption) applyEvent(c EventConfig) EventConfig {
+	// if len(c.attributes) == 0 {
+	// 	c.attributes = o
+	// 	return c
+	// }
 	c.attributes = append(c.attributes, []attribute.KeyValue(o)...)
 	return c
 }

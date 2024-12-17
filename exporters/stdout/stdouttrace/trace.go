@@ -6,6 +6,7 @@ package stdouttrace // import "go.opentelemetry.io/otel/exporters/stdout/stdoutt
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"sync"
 	"time"
 
@@ -19,6 +20,7 @@ var _ trace.SpanExporter = &Exporter{}
 
 // New creates an Exporter with the passed options.
 func New(options ...Option) (*Exporter, error) {
+	fmt.Println("yyy-------------------------------- New Exporter")
 	cfg := newConfig(options...)
 
 	enc := json.NewEncoder(cfg.Writer)
@@ -44,6 +46,26 @@ type Exporter struct {
 
 // ExportSpans writes spans in json format to stdout.
 func (e *Exporter) ExportSpans(ctx context.Context, spans []trace.ReadOnlySpan) error {
+	/*
+		fmt.Println("yyy-------------------------------- ExportSpans, proto spans")
+		protoSpans := Spans(spans)
+		if len(protoSpans) == 0 {
+			return nil
+		}
+		for _, sp := range protoSpans {
+			fmt.Printf("yyy-------------------------------- ExportSpans 00, protoSpan:%#v\n", sp)
+			for _, scopSp := range sp.ScopeSpans {
+				fmt.Printf("yyy-------------------------------- ExportSpans 11, scopSpan:%#v, spans:%#v\n", scopSp, scopSp.Spans)
+				for _, s := range scopSp.Spans {
+					for _, e := range s.Events {
+						fmt.Printf("yyy-------------------------------- ExportSpans 22, span:%#v, event:%#v\n", s, e)
+					}
+				}
+			}
+		}
+	*/
+
+	fmt.Println("yyy-------------------------------- ExportSpans, stdout")
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -74,10 +96,12 @@ func (e *Exporter) ExportSpans(ctx context.Context, spans []trace.ReadOnlySpan) 
 			}
 		}
 
+		fmt.Println("yyy-------------------------------- ExportSpans, encode 10")
 		// Encode span stubs, one by one
 		if err := e.encoder.Encode(stub); err != nil {
 			return err
 		}
+		fmt.Println("yyy-------------------------------- ExportSpans, encode 11")
 	}
 	return nil
 }
